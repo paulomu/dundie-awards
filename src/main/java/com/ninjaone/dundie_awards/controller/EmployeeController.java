@@ -1,13 +1,12 @@
 package com.ninjaone.dundie_awards.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ninjaone.dundie_awards.exception.EmployeeNotFoundException;
 import com.ninjaone.dundie_awards.model.Employee;
 import com.ninjaone.dundie_awards.repository.ActivityRepository;
-import com.ninjaone.dundie_awards.repository.EmployeeRepository;
+import com.ninjaone.dundie_awards.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
     @Autowired
     private ActivityRepository activityRepository;
@@ -36,50 +35,36 @@ public class EmployeeController {
     @GetMapping("/employees")
     @ResponseBody
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployees();
     }
 
     // create employee rest api
     @PostMapping("/employees")
     @ResponseBody
     public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeRepository.save(employee);
+        return employeeService.createEmployee(employee);
     }
 
     // get employee by id rest api
     @GetMapping("/employees/{id}")
     @ResponseBody
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-        Employee employee = fetchEmployeeByIdOrThrow(id);
-        return ResponseEntity.ok(employee);
+        return ResponseEntity.ok(employeeService.getEmployeeById(id));
     }
 
     // update employee rest api
     @PutMapping("/employees/{id}")
     @ResponseBody
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
-        Employee employee = fetchEmployeeByIdOrThrow(id);
-        employee.setFirstName(employeeDetails.getFirstName());
-        employee.setLastName(employeeDetails.getLastName());
-
-        Employee updatedEmployee = employeeRepository.save(employee);
-        return ResponseEntity.ok(updatedEmployee);
+        return ResponseEntity.ok(employeeService.updateEmployee(id, employeeDetails));
     }
 
     // delete employee rest api
     @DeleteMapping("/employees/{id}")
     @ResponseBody
     public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
-        Employee employee = fetchEmployeeByIdOrThrow(id);
-        employeeRepository.delete(employee);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return ResponseEntity.ok(response);
-    }
-
-    private Employee fetchEmployeeByIdOrThrow(Long id) {
-        return employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(id));
+        employeeService.deleteEmployee(id);
+        return ResponseEntity.ok(Map.of("deleted", Boolean.TRUE));
     }
 
     @ExceptionHandler(EmployeeNotFoundException.class)
