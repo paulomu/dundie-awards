@@ -94,7 +94,8 @@ public class EmployeeControllerIntegrationTest {
     @Test
     public void shouldReturn404WhenGetEmployeeByIdNotFound() throws Exception {
         mockMvc.perform(get("/employees/{id}", 999L))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("message").value("Employee not found: 999"));
     }
 
     /* PUT /employees/{id} */
@@ -127,7 +128,8 @@ public class EmployeeControllerIntegrationTest {
         mockMvc.perform(put("/employees/{id}", 999L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("message").value("Employee not found: 999"));
     }
 
     /* DELETE /employees/{id} */
@@ -141,6 +143,7 @@ public class EmployeeControllerIntegrationTest {
     @Test
     public void shouldReturn404WhenDeleteEmployeeByIdNotFound() throws Exception {
         mockMvc.perform(delete("/employees/{id}", 999L))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("message").value("Employee not found: 999"));
     }
 }
