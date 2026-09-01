@@ -1,5 +1,6 @@
 package com.ninjaone.dundie_awards.controller;
 
+import com.ninjaone.dundie_awards.PostgresIntegrationTest;
 import com.ninjaone.dundie_awards.model.Employee;
 import com.ninjaone.dundie_awards.model.Organization;
 import com.ninjaone.dundie_awards.repository.ActivityRepository;
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Transactional
-public class EmployeeControllerIntegrationTest {
+public class EmployeeControllerIntegrationTest extends PostgresIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -59,7 +60,8 @@ public class EmployeeControllerIntegrationTest {
     @Test
     public void shouldReturnAllEmployeeDetailsWhenGetAllEmployees() throws Exception {
         mockMvc.perform(get("/employees"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()").value(1));
     }
 
     /* POST /employees */

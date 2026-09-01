@@ -1,5 +1,6 @@
 package com.ninjaone.dundie_awards.controller;
 
+import com.ninjaone.dundie_awards.PostgresIntegrationTest;
 import com.ninjaone.dundie_awards.model.Organization;
 import com.ninjaone.dundie_awards.repository.ActivityRepository;
 import com.ninjaone.dundie_awards.repository.OrganizationRepository;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Transactional
-public class OrganizationControllerIntegrationTest {
+public class OrganizationControllerIntegrationTest extends PostgresIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,7 +47,8 @@ public class OrganizationControllerIntegrationTest {
     @Test
     public void shouldReturnAllOrganizationDetailsWhenGetAllOrganizations() throws Exception {
         mockMvc.perform(get("/organizations"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()").value(1));
     }
 
     /* POST /organizations */
