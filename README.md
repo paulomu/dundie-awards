@@ -6,6 +6,14 @@ As recognition, employees can receive Dundie Awards.
 
 * A `Dundie Award` is in reference to the TV show [The Office](https://en.wikipedia.org/wiki/The_Dundies) in which the main character hands out awards to his colleagues. For our purposes, it's a generic award.
 
+## Run locally
+
+To run the complete application stack in Docker, use `docker compose up --build`.
+
+Alternativelly use `./gradlew bootRun` if Postgres is already running on your machine.
+
+Integration tests use a disposable PostgreSQL Testcontainer, so they do not require alocally running database.
+
 ## Instructions
 
 In preparation for the upcoming call with NinjaOne, `clone` this repo and run it locally. If everything runs successfully, you will see the following page in your browser.

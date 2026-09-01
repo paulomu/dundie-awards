@@ -34,8 +34,8 @@
         3. [x] Add OrganizationControllerIntegrationTest
 7. The API doesn't let update an Employee's organization or dundieAwards after creating it.
     1. Skipped, reason: requirement is unconfirmed; might there be a reason for that (eg. immutable org, dundie awards calculated in a different way and not settable, etc)
-8. Source code not taking advantage of some Java features
-   1. Why it matters: Java has introduced 
+8. Source code not taking advantage of some Java features.
+   1. Why it matters: Some language features help reducing boiler plate code and allow expressing operations in a more fluent, natural way.
    2. Action items:
       1. [x] Refactor the code to 
           1. Optional fluent API (Optional.map.orElse...)
