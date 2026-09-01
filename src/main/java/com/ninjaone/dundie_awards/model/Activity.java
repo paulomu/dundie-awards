@@ -28,15 +28,27 @@ public class Activity {
     }
 
     public static Activity employeeCreated(Employee employee) {
-        return new Activity(LocalDateTime.now(), String.format("Created employee %s %s from %s", employee.getFirstName(), employee.getLastName(), employee.getOrganization().getName()));
+        return new Activity(LocalDateTime.now(), "Created employee %s %s from %s".formatted(employee.getFirstName(), employee.getLastName(), employee.getOrganization().getName()));
     }
 
     public static Activity employeeDeleted(Employee employee) {
-        return new Activity(LocalDateTime.now(), String.format("Deleted employee %s %s from %s", employee.getFirstName(), employee.getLastName(), employee.getOrganization().getName()));
+        return new Activity(LocalDateTime.now(), "Deleted employee %s %s from %s".formatted(employee.getFirstName(), employee.getLastName(), employee.getOrganization().getName()));
     }
 
     public static Activity employeeUpdated(Employee oldEmployee, Employee updatedEmployee) {
-        return new Activity(LocalDateTime.now(), String.format("Updated employee %s %s to %s %s", oldEmployee.getFirstName(), oldEmployee.getLastName(), updatedEmployee.getFirstName(), updatedEmployee.getLastName()));
+        return new Activity(LocalDateTime.now(), "Updated employee %s %s to %s %s".formatted(oldEmployee.getFirstName(), oldEmployee.getLastName(), updatedEmployee.getFirstName(), updatedEmployee.getLastName()));
+    }
+
+    public static Activity organizationCreated(Organization organization) {
+        return new Activity(LocalDateTime.now(), "Created organization %s".formatted(organization.getName()));
+    }
+
+    public static Activity organizationUpdated(Organization oldOrganization, Organization updatedOrganization) {
+        return new Activity(LocalDateTime.now(), "Updated organization %s to %s".formatted(oldOrganization.getName(), updatedOrganization.getName()));
+    }
+
+    public static Activity organizationDeleted(Organization organization) {
+        return new Activity(LocalDateTime.now(), "Deleted organization %s".formatted(organization.getName()));
     }
 
     public LocalDateTime getOccuredAt() {

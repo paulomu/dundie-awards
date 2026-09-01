@@ -41,22 +41,22 @@ public class EmployeeController {
     // get employee by id rest api
     @GetMapping("/employees/{id}")
     @ResponseBody
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-        return ResponseEntity.ok(employeeService.getEmployeeById(id));
+    public Employee getEmployeeById(@PathVariable Long id) {
+        return employeeService.getEmployeeById(id);
     }
 
     // update employee rest api
     @PutMapping("/employees/{id}")
     @ResponseBody
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
-        return ResponseEntity.ok(employeeService.updateEmployee(id, employeeDetails));
+    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
+        return employeeService.updateEmployee(id, employeeDetails);
     }
 
     // delete employee rest api
     @DeleteMapping("/employees/{id}")
     @ResponseBody
-    public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
+    public Map<String, Boolean> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
-        return ResponseEntity.ok(Map.of("deleted", Boolean.TRUE));
+        return Map.of("deleted", Boolean.TRUE);
     }
 }

@@ -14,6 +14,26 @@
     </style>
 </head>
 <body>
+<div th:switch="${organizations}" class="mt-5">
+    <p th:case="null" class="alert alert-warning">No organizations</p>
+    <div th:case="*">
+        <h2 class="mb-3">Organizations</h2>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="organization : ${organizations}">
+                <td th:text="${organization.id}"></td>
+                <td th:text="${organization.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 <div th:switch="${employees}" class="mt-5">
     <p th:case="null" class="alert alert-warning">No employees</p>
     <div th:case="*">
