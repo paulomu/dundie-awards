@@ -27,6 +27,18 @@ public class Activity {
         this.event = event;
     }
 
+    public static Activity employeeCreated(Employee employee) {
+        return new Activity(LocalDateTime.now(), String.format("Created employee %s %s from %s", employee.getFirstName(), employee.getLastName(), employee.getOrganization().getName()));
+    }
+
+    public static Activity employeeDeleted(Employee employee) {
+        return new Activity(LocalDateTime.now(), String.format("Deleted employee %s %s from %s", employee.getFirstName(), employee.getLastName(), employee.getOrganization().getName()));
+    }
+
+    public static Activity employeeUpdated(Employee oldEmployee, Employee updatedEmployee) {
+        return new Activity(LocalDateTime.now(), String.format("Updated employee %s %s to %s %s", oldEmployee.getFirstName(), oldEmployee.getLastName(), updatedEmployee.getFirstName(), updatedEmployee.getLastName()));
+    }
+
     public LocalDateTime getOccuredAt() {
         return occuredAt;
     }

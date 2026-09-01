@@ -25,9 +25,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @Autowired
-    private ActivityRepository activityRepository;
-
     // get all employees
     @GetMapping("/employees")
     @ResponseBody

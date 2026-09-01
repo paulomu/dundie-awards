@@ -2,6 +2,7 @@ package com.ninjaone.dundie_awards.controller;
 
 import com.ninjaone.dundie_awards.model.Employee;
 import com.ninjaone.dundie_awards.model.Organization;
+import com.ninjaone.dundie_awards.repository.ActivityRepository;
 import com.ninjaone.dundie_awards.repository.EmployeeRepository;
 import com.ninjaone.dundie_awards.repository.OrganizationRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,6 +32,9 @@ public class EmployeeControllerIntegrationTest {
 
     @Autowired
     private OrganizationRepository organizationRepository;
+
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -76,6 +81,10 @@ public class EmployeeControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk());
+
+        var activities = activityRepository.findAll();
+        assertThat(activities.size()).isEqualTo(1);
+        assertThat(activities.get(0).getEvent()).isEqualTo("Created employee John Doe from NinjaOne");
     }
 
     /* GET /employees/{id} */
@@ -114,6 +123,10 @@ public class EmployeeControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("firstName").value("Spider"))
                 .andExpect(jsonPath("lastName").value("Man"));
+
+        var activities = activityRepository.findAll();
+        assertThat(activities.size()).isEqualTo(1);
+        assertThat(activities.get(0).getEvent()).isEqualTo("Updated employee Peter Parker to Spider Man");
     }
 
     @Test
@@ -138,6 +151,10 @@ public class EmployeeControllerIntegrationTest {
         mockMvc.perform(delete("/employees/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("deleted").value(true));
+
+        var activities = activityRepository.findAll();
+        assertThat(activities.size()).isEqualTo(1);
+        assertThat(activities.get(0).getEvent()).isEqualTo("Deleted employee Peter Parker from NinjaOne");
     }
 
     @Test
